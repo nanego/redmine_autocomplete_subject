@@ -1,0 +1,38 @@
+$(document).ready(function(){
+
+  "use strict";
+
+  $("#issue_subject").attr('disabled','disabled');
+
+  var fields = [];
+  var values = {};
+
+  // Init selected fields, order and values
+  <% AutocompletedField.where(project_id: @project.id).order('position asc').each do |f| %>
+    fields.push('<%= f %>');
+    values['<%= f %>'] = $('#<%= f %> option:selected').text();
+  <% end %>
+
+  var reloadSubject;
+  (reloadSubject = function () {
+    var subject = [];
+    for (var i = 0; i < fields.length; i++) {
+      if (values[fields[i]] != undefined && values[fields[i]].length > 1 && values[fields[i]] != '&nbsp;' ) {
+        subject.push(values[fields[i]]);
+      }
+    }
+    $("#issue_subject").val(subject.join(' - '));
+  })();
+
+  $('#content').on('change', 'select', function(){
+    values[this.id] = this.options[this.selectedIndex].innerHTML;
+    reloadSubject();
+  });
+
+  // Subject won't be pass as parameter if it is disabled
+  $('#issue-form').submit( function(){
+    $("#issue_subject").removeAttr('disabled');
+    return true;
+  });
+
+});
