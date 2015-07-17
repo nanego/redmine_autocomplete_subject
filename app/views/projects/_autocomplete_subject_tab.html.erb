@@ -1,11 +1,23 @@
 <%
-   selected_fields = AutocompletedField.where(project_id: @project.id).order('position asc').collect { |f| [l("field_#{f.field_name.sub('issue_', '').sub('_id', '')}"), f.field_name] }
+   global_custom_fields = CustomField.where(field_format: 'list', multiple: false, :is_for_all => true).where("format_store NOT LIKE '%check_box%'")
+   project_custom_fields = @project.issue_custom_fields.where(field_format: 'list', multiple: false).where("format_store NOT LIKE '%check_box%'")
+   custom_fields = (project_custom_fields + global_custom_fields).collect { |f| [f.name, "issue_custom_field_values_#{f.id}"] }
+
+   selected_fields = AutocompletedField.where(project_id: @project.id).order('position asc').collect do |f|
+     if f.field_name.include? 'custom_field'
+       cf = CustomField.find(f.field_name.sub('issue_custom_field_values_', ''))
+       [cf.name, "issue_custom_field_values_#{cf.id}"]
+     else
+       [l("field_#{f.field_name.sub('issue_', '').sub('_id', '')}"), f.field_name]
+     end
+   end
+
    available_fields = [
        [l(:field_tracker), 'issue_tracker_id'],
        [l(:field_status), 'issue_status_id'],
        [l(:field_priority), 'issue_priority_id'],
        [l(:field_category), 'issue_category_id']
-   ] - selected_fields
+   ] + custom_fields - selected_fields
 %>
 
 <%= form_for :autocomplete_pattern, url: {controller: :autocompleted_fields, action: :update_by_project}, html:  {id: :autocomplete_form} do |f| %>
