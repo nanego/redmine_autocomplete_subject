@@ -21,7 +21,7 @@ $(document).ready(function(){
         subject.push(values[fields[i]]);
       }
     }
-    $("#issue_subject").val(subject.join(' - '));
+    $("#issue_subject").val(subject.join('<%= @project.autocomplete_separator %>'));
   })();
 
   $('#content').on('change', 'select', function(){

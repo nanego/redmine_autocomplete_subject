@@ -44,6 +44,11 @@
     </tr>
   </table>
 
+  <div>
+    <%= label_tag "separator", l(:separator) %>
+    <%= text_field_tag "separator", @project.autocomplete_separator %>
+  </div>
+
   <%= javascript_tag do %>
     $(document).ready(function(){
     $('#autocomplete_form').submit(function(){
@@ -54,6 +59,7 @@
 
   <%= f.hidden_field :project_id, value: @project.id %>
 
+  <br/>
   <%= f.submit l(:button_apply) %>
 
 <% end %>

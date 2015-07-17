@@ -13,6 +13,9 @@ class AutocompletedFieldsController < ApplicationController
       )
     end if params[:selected_fields].present?
 
+    project.autocomplete_separator = params["separator"] if params["separator"].present?
+    project.save
+
     redirect_to settings_project_path(id: project.identifier, tab: 'autocomplete_subject')
 
   end

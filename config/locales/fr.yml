@@ -3,3 +3,4 @@ fr:
   autocomplete_subject: "Saisie automatique du sujet"
   description_available_fields: "Champs disponibles"
   description_selected_fields: "Champs sélectionnés"
+  separator: "Séparateur"
