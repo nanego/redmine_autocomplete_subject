@@ -56,10 +56,15 @@
     </tr>
   </table>
 
-  <div>
+  <p>
     <%= label_tag "separator", l(:separator) %>
     <%= text_field_tag "separator", @project.autocomplete_separator %>
-  </div>
+  </p>
+
+  <p>
+    <%= label_tag "show_subject_input", l(:show_subject_input) %>
+    <%= select_tag "show_subject_input", options_for_select([ [l(:label_disabled), 1], [l(:label_hidden).downcase, 2], [l(:enabled), 3] ], @project.show_subject_input) %>
+  </p>
 
   <%= javascript_tag do %>
     $(document).ready(function(){

@@ -4,3 +4,5 @@ fr:
   description_available_fields: "Champs disponibles"
   description_selected_fields: "Champs sélectionnés"
   separator: "Séparateur"
+  show_subject_input: "Le champ 'Sujet' dans le formulaire de saisie doit être"
+  enabled: activé
