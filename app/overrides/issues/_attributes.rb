@@ -4,6 +4,6 @@ Deface::Override.new :virtual_path => 'issues/_form',
                      :text      => <<EOD
 <%= javascript_tag do %>
   <%= render :partial => "issues/autocomplete_subject.js" %>
-<% end %>
+<% end if @issue.project.module_enabled?("autocomplete_subject")%>
 
 EOD
