@@ -32,7 +32,7 @@ $(document).ready(function(){
   })();
 
   $('#content').on('change', 'select', function(){
-    if (this.options[this.selectedIndex].value != undefined && this.options[this.selectedIndex].value.length > 0 ) {
+    if (this.options[this.selectedIndex] != undefined && this.options[this.selectedIndex].value != undefined && this.options[this.selectedIndex].value.length > 0 ) {
       values[this.id] = this.options[this.selectedIndex].innerHTML;
     }else{
       values[this.id] = "";
