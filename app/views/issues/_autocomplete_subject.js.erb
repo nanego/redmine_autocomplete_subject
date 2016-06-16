@@ -28,7 +28,7 @@ $(document).ready(function(){
   (reloadSubject = function () {
     var subject = [];
     for (var i = 0; i < fields.length; i++) {
-      if (values[fields[i]] != undefined && values[fields[i]].length > 1 && values[fields[i]] != '&nbsp;' ) {
+      if (values[fields[i]] != undefined && values[fields[i]].length > 0 && values[fields[i]] != '&nbsp;' ) {
         subject.push(values[fields[i]]);
       }
     }
@@ -36,7 +36,7 @@ $(document).ready(function(){
   })();
 
   $('#content').on('change', 'select', function(){
-    if (this.options[this.selectedIndex] != undefined && this.options[this.selectedIndex].value != undefined && this.options[this.selectedIndex].value.length > 0 ) {
+    if (this.options[this.selectedIndex] && this.options[this.selectedIndex].value) {
       values[this.id] = this.options[this.selectedIndex].innerHTML;
     }else{
       values[this.id] = "";
@@ -44,7 +44,7 @@ $(document).ready(function(){
     reloadSubject();
   });
   $('#content').on('change', 'input', function(){
-    if (this.value != undefined && this.value.length > 0 ) {
+    if (this.value) {
       values[this.id] = this.value;
     }else{
       values[this.id] = "";
