@@ -1,6 +1,6 @@
 <%
-   global_custom_fields = CustomField.where(field_format: 'list', multiple: false, :is_for_all => true).where("format_store NOT LIKE '%check_box%'")
-   project_custom_fields = @project.issue_custom_fields.where(field_format: 'list', multiple: false).where("format_store NOT LIKE '%check_box%'")
+   global_custom_fields = CustomField.where(field_format: ['list', 'int', 'string'], multiple: false, :is_for_all => true).where("format_store NOT LIKE '%check_box%'")
+   project_custom_fields = @project.issue_custom_fields.where(field_format: ['list', 'int', 'string'], multiple: false).where("format_store NOT LIKE '%check_box%'")
    custom_fields = (project_custom_fields + global_custom_fields).collect { |f| [f.name, "issue_custom_field_values_#{f.id}"] }
 
    selected_fields = AutocompletedField.where(project_id: @project.id).order('position asc').collect do |f|
