@@ -5,8 +5,8 @@
 
    selected_fields = AutocompletedField.where(project_id: @project.id).order('position asc').collect do |f|
      if f.field_name.include? 'custom_field'
-       cf = CustomField.find(f.field_name.sub('issue_custom_field_values_', ''))
-       [cf.name, "issue_custom_field_values_#{cf.id}"]
+       cf = CustomField.where(id: f.field_name.sub('issue_custom_field_values_', '')).first
+       [cf.name, "issue_custom_field_values_#{cf.id}"] if cf.present?
      else
        [l("field_#{f.field_name.sub('issue_', '').sub('_id', '')}"), f.field_name]
      end
