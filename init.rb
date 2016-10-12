@@ -9,8 +9,8 @@ Redmine::Plugin.register :redmine_autocomplete_subject do
   author 'Vincent ROBERT'
   description 'This is a plugin for Redmine'
   version '1.0.0'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  url 'https://github.com/nanego/redmine_autocomplete_subject'
+  author_url 'mailto:contact@vincent-robert.com'
 
   project_module :autocomplete_subject do
     permission :set_autocomplete_subject_pattern, {  }
