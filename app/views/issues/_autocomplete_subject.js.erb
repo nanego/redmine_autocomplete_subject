@@ -2,11 +2,11 @@ $(document).ready(function(){
 
   "use strict";
 
-  <% if @project.show_subject_input == 1 %>
+  <% if @project.nil? || @project.show_subject_input == 2 %>
+    $("p:contains('<%= l('field_subject') %>')").css('display', 'none');
+  <% elsif @project.show_subject_input == 1 %>
     $("#issue_subject").attr('disabled','disabled');
     $("#issue_subject").css('background-color', '#F0F0F0');
-  <% elsif @project.show_subject_input == 2 %>
-    $("p:contains('<%= l('field_subject') %>')").css('display', 'none');
   <% end %>
 
   var fields = [];
