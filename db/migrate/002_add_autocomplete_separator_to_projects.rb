@@ -1,4 +1,4 @@
-class AddAutocompleteSeparatorToProjects < ActiveRecord::Migration
+class AddAutocompleteSeparatorToProjects < ActiveRecord::Migration[4.2]
   def self.up
     add_column :projects, :autocomplete_separator, :string
   end

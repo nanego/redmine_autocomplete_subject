@@ -1,4 +1,4 @@
-class AddShowSubjectInputToProjects < ActiveRecord::Migration
+class AddShowSubjectInputToProjects < ActiveRecord::Migration[4.2]
   def self.up
     add_column :projects, :show_subject_input, :integer
   end

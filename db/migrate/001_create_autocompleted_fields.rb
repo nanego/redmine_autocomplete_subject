@@ -1,4 +1,4 @@
-class CreateAutocompletedFields < ActiveRecord::Migration
+class CreateAutocompletedFields < ActiveRecord::Migration[4.2]
   def self.up
     create_table :autocompleted_fields do |t|
       t.column :project_id, :integer
