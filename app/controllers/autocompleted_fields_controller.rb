@@ -3,7 +3,7 @@ class AutocompletedFieldsController < ApplicationController
   def update_by_project
 
     project = Project.find(params[:autocomplete_pattern][:project_id])
-    AutocompletedField.delete_all(project_id: project.id)
+    AutocompletedField.where(project_id: project.id).delete_all
 
     params[:selected_fields].each_with_index do |field_name, index|
       AutocompletedField.create(project_id: project.id,
