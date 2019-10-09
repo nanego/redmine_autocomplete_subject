@@ -1,61 +1,72 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-  "use strict";
+    "use strict";
 
-  <% if @project.nil? || @project.show_subject_input == 2 %>
+    <% if @project.autocomplete_subject_tracker_ids.blank? || @project.autocomplete_subject_tracker_ids.split('|').include?(@issue.tracker.id.to_s) %>
+
+    var tracker_ids = []
+    <% @project.autocomplete_subject_tracker_ids.split('|').each do |tracker_id| %>
+    tracker_ids.push('<%= tracker_id.to_i %>');
+    <% end %>
+
+    <% if @project.nil? || @project.show_subject_input == 2 %>
     $("p:contains('<%= l('field_subject') %>')").css('display', 'none');
-  <% elsif @project.show_subject_input == 1 %>
-    $("#issue_subject").attr('disabled','disabled');
+    <% elsif @project.show_subject_input == 1 %>
+    $("#issue_subject").attr('disabled', 'disabled');
     $("#issue_subject").css('background-color', '#F0F0F0');
-  <% end %>
+    <% end %>
 
-  var fields = [];
-  var values = {};
+    var fields = [];
+    var values = {};
 
-  // Init selected fields, order and values
-  <% AutocompletedField.where(project_id: @project.id).order('position asc').each do |f| %>
+    // Init selected fields, order and values
+    <% AutocompletedField.where(project_id: @project.id).order('position asc').each do |f| %>
     fields.push('<%= f %>');
-    if ($('#<%= f %> option:selected').val() != undefined && $('#<%= f %> option:selected').val().length > 0 ){
-      values['<%= f %>'] = $('#<%= f %> option:selected').text();
-    }else{
-      if ($('#<%= f %>').val() != undefined && $('#<%= f %>').val().length > 0 ){
-        values['<%= f %>'] = $('#<%= f %>').val();
-      }
+    if ($('#<%= f %> option:selected').val() != undefined && $('#<%= f %> option:selected').val().length > 0) {
+        values['<%= f %>'] = $('#<%= f %> option:selected').text();
+    } else {
+        if ($('#<%= f %>').val() != undefined && $('#<%= f %>').val().length > 0) {
+            values['<%= f %>'] = $('#<%= f %>').val();
+        }
     }
-  <% end %>
+    <% end %>
 
-  var reloadSubject;
-  (reloadSubject = function () {
-    var subject = [];
-    for (var i = 0; i < fields.length; i++) {
-      if (values[fields[i]] != undefined && values[fields[i]].length > 0 && values[fields[i]] != '&nbsp;' ) {
-        subject.push(values[fields[i]]);
-      }
-    }
-    $("#issue_subject").val(subject.join('<%= @project.autocomplete_separator %>'));
-  })();
+    var reloadSubject;
+    (reloadSubject = function () {
+        if (tracker_ids.length == 0 || tracker_ids.indexOf($("#issue_tracker_id option:selected").val()) >= 0) {
+            var subject = [];
+            for (var i = 0; i < fields.length; i++) {
+                if (values[fields[i]] != undefined && values[fields[i]].length > 0 && values[fields[i]] != '&nbsp;') {
+                    subject.push(values[fields[i]]);
+                }
+            }
+            $("#issue_subject").val(subject.join('<%= @project.autocomplete_separator %>'));
+        }
+    })();
 
-  $('#content').on('change', 'select', function(){
-    if (this.options[this.selectedIndex] && this.options[this.selectedIndex].value) {
-      values[this.id] = this.options[this.selectedIndex].innerHTML;
-    }else{
-      values[this.id] = "";
-    }
-    reloadSubject();
-  });
-  $('#content').on('change', 'input', function(){
-    if (this.value) {
-      values[this.id] = this.value;
-    }else{
-      values[this.id] = "";
-    }
-    reloadSubject();
-  });
+    $('#content').on('change', 'select', function () {
+        if (this.options[this.selectedIndex] && this.options[this.selectedIndex].value) {
+            values[this.id] = this.options[this.selectedIndex].innerHTML;
+        } else {
+            values[this.id] = "";
+        }
+        reloadSubject();
+    });
+    $('#content').on('change', 'input', function () {
+        if (this.value) {
+            values[this.id] = this.value;
+        } else {
+            values[this.id] = "";
+        }
+        reloadSubject();
+    });
 
-  // Subject won't be pass as parameter if it is disabled
-  $('#issue-form').submit( function(){
-    $("#issue_subject").removeAttr('disabled');
-    return true;
-  });
+    // Subject won't be pass as parameter if it is disabled
+    $('#issue-form').submit(function () {
+        $("#issue_subject").removeAttr('disabled');
+        return true;
+    });
+
+    <% end %>
 
 });

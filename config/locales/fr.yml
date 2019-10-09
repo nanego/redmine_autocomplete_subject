@@ -6,3 +6,4 @@ fr:
   separator: "Séparateur"
   show_subject_input: "Le champ 'Sujet' dans le formulaire de saisie doit être"
   enabled: activé
+  only_activated_for_these_trackers: "Activé uniquement pour ces trackers"

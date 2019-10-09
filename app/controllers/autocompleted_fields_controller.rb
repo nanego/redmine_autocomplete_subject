@@ -15,6 +15,7 @@ class AutocompletedFieldsController < ApplicationController
 
     project.autocomplete_separator = params["separator"] if params["separator"].present?
     project.show_subject_input = params["show_subject_input"] if params["show_subject_input"].present?
+    project.autocomplete_subject_tracker_ids = params["autocomplete_subject_tracker_ids"].join('|')
     project.save
 
     redirect_to settings_project_path(id: project.identifier, tab: 'autocomplete_subject')
