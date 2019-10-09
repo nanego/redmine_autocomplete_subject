@@ -5,8 +5,10 @@ $(document).ready(function () {
     <% if @project.autocomplete_subject_tracker_ids.blank? || @project.autocomplete_subject_tracker_ids.split('|').include?(@issue.tracker.id.to_s) %>
 
     var tracker_ids = []
+    <% if @project.autocomplete_subject_tracker_ids.present? %>
     <% @project.autocomplete_subject_tracker_ids.split('|').each do |tracker_id| %>
     tracker_ids.push('<%= tracker_id.to_i %>');
+    <% end %>
     <% end %>
 
     <% if @project.nil? || @project.show_subject_input == 2 %>
