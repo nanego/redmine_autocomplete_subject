@@ -2,6 +2,7 @@ require 'redmine'
 
 ActiveSupport::Reloader.to_prepare do
   require_dependency 'autocomplete_subject/projects_helper_patch'
+  require_dependency 'autocomplete_subject/issues_controller_patch'
 end
 
 Redmine::Plugin.register :redmine_autocomplete_subject do
