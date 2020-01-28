@@ -7,7 +7,7 @@ class IssuesController
   private
 
   def valid_autocompleted_subject
-    if @issue.project.module_enabled?("autocomplete_subject")
+    if @issue.project.present? && @issue.project.module_enabled?("autocomplete_subject")
       subject_textfield_not_activated = @issue.project.show_subject_input != 3
       module_enabled_for_current_tracker = @issue.project.autocomplete_subject_tracker_ids.blank? || @issue.project.autocomplete_subject_tracker_ids.split('|').include?(@issue.tracker.id.to_s)
       if subject_textfield_not_activated && module_enabled_for_current_tracker
