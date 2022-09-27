@@ -7,7 +7,7 @@ module PluginAutocompleteSubject
     def project_settings_tabs
       tabs = super
       if @project.module_enabled?("autocomplete_subject")
-        autocomplete_subject_tab = {name: :autocomplete_subject, action: :autocomplete_subject, partial: 'projects/autocomplete_subject_tab', label: :autocomplete_subject}
+        autocomplete_subject_tab = {name: 'autocomplete_subject', action: :autocomplete_subject, partial: 'projects/settings_autocomplete_subject_tab', label: :autocomplete_subject}
         tabs << autocomplete_subject_tab
       end
       tabs

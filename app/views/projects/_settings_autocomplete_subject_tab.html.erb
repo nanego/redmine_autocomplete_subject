@@ -1,0 +1,92 @@
+<%
+  global_custom_fields = CustomField.where(field_format: ['list', 'int', 'string'], multiple: false, :is_for_all => true).where("format_store NOT LIKE '%check_box%'")
+  project_custom_fields = @project.issue_custom_fields.where(field_format: ['list', 'int', 'string'], multiple: false).where("format_store NOT LIKE '%check_box%'")
+  custom_fields = (project_custom_fields + global_custom_fields).collect { |f| [f.name, "issue_custom_field_values_#{f.id}"] }
+
+  selected_fields = AutocompletedField.where(project_id: @project.id).order('position asc').collect do |f|
+    if f.field_name.include? 'custom_field'
+      cf = CustomField.where(id: f.field_name.sub('issue_custom_field_values_', '')).first
+      [cf.name, "issue_custom_field_values_#{cf.id}"] if cf.present?
+    else
+      [l("field_#{f.field_name.sub('issue_', '').sub('_id', '')}"), f.field_name]
+    end
+  end
+
+  available_fields = [
+    [l(:field_tracker), 'issue_tracker_id'],
+    [l(:field_status), 'issue_status_id'],
+    [l(:field_priority), 'issue_priority_id'],
+    [l(:field_category), 'issue_category_id'],
+    [l(:field_author), 'issue_author_id']
+  ] + custom_fields - selected_fields
+%>
+
+<fieldset class="box">
+  <legend><%= l(:autocomplete_subject) %></legend>
+  <%= form_for :autocomplete_pattern, url: { controller: :autocompleted_fields, action: :update_by_project }, html: { id: :autocomplete_form } do |f| %>
+
+    <table>
+      <tr>
+        <td style="padding-left:0">
+          <%= label_tag "available_fields", l(:description_available_fields) %>
+          <br/>
+          <%= select_tag 'available_fields',
+                         options_for_select(available_fields),
+                         :multiple => true, :size => 10, :style => "width:150px",
+                         :ondblclick => "moveOptions('#available_fields', '#selected_fields');" %>
+        </td>
+        <td class="buttons">
+          <input type="button" value="&#8594;"
+                 onclick="moveOptions('#available_fields', '#selected_fields');"/><br/>
+          <input type="button" value="&#8592;"
+                 onclick="moveOptions('#selected_fields', '#available_fields');"/>
+        </td>
+
+        <td>
+          <%= label_tag "selected_fields", l(:description_selected_fields) %>
+          <br/>
+          <%= select_tag 'selected_fields[]',
+                         options_for_select(selected_fields),
+                         { :id => 'selected_fields', :multiple => true, :size => 10, :style => "width:150px",
+                           :ondblclick => "moveOptions('#selected_fields', '#available_fields');" } %>
+        </td>
+        <td class="buttons">
+          <input type="button" value="&#8648;" onclick="moveOptionTop('#selected_fields');"/><br/>
+          <input type="button" value="&#8593;" onclick="moveOptionUp('#selected_fields');"/><br/>
+          <input type="button" value="&#8595;" onclick="moveOptionDown('#selected_fields');"/><br/>
+          <input type="button" value="&#8650;" onclick="moveOptionBottom('#selected_fields');"/>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      <%= label_tag "separator", l(:separator) %>
+      <%= text_field_tag "separator", @project.autocomplete_separator %>
+    </p>
+
+    <p>
+      <%= label_tag "show_subject_input", l(:show_subject_input) %>
+      <%= select_tag "show_subject_input", options_for_select([[l(:label_disabled), 1], [l(:label_hidden).downcase, 2], [l(:enabled), 3]], @project.show_subject_input) %>
+    </p>
+
+    <p>
+      <%= label_tag "only_activated_for_these_trackers", l(:only_activated_for_these_trackers) %>
+      <% autocomplete_subject_tracker_ids = @project.autocomplete_subject_tracker_ids.present? ? @project.autocomplete_subject_tracker_ids.split('|') : [] %>
+      <%= select_tag :autocomplete_subject_tracker_ids, options_for_select(Issue.allowed_target_trackers(@project).collect { |p| [p.name, p.id] }, autocomplete_subject_tracker_ids), { :required => false, :multiple => true } %>
+    </p>
+
+    <%= javascript_tag do %>
+      $(document).ready(function(){
+      $('#autocomplete_form').submit(function(){
+      $('#selected_fields option').prop('selected', true);
+      });
+      });
+    <% end %>
+
+    <%= f.hidden_field :project_id, value: @project.id %>
+
+    <br/>
+    <%= f.submit l(:button_apply) %>
+
+  <% end %>
+</fieldset>
