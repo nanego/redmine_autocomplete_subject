@@ -43,4 +43,22 @@ describe ProjectsController, :type => :controller do
       expect(AutocompletedField.last.position).to eq(2)
     end
   end
+
+  describe "create a project" do 
+    it "Check if default separator and fields are set on autocomplete_subject plugin is activated" do
+      post(
+        :create, :params => {
+          :project => {
+            :name => "Project using autocomplete_subject",
+            :identifier => "project_using_autocomplete_subject",
+            :enabled_module_names => ['autocomplete_subject']
+          }
+        }
+      )
+      project = Project.last
+      expect(AutocompletedField.last.project_id).to eq(project.id)
+      expect(AutocompletedField.last.field_name).to eq("issue_tracker_id")
+      expect(project.autocomplete_separator).to eq("-")
+    end
+  end
 end
