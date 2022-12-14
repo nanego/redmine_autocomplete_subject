@@ -1,5 +1,9 @@
 require_dependency 'project'
 
+class Project
+  has_many :autocompleted_fields, :dependent => :destroy
+end
+
 module PluginAutocompleteSubject
   module ProjectModel
     # Copies all parameters of autocomplete_subject from +project+
