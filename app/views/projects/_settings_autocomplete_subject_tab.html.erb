@@ -44,6 +44,7 @@
 
         <td>
           <%= label_tag "selected_fields", l(:description_selected_fields) %>
+          <span class="required">*</span>
           <br/>
           <%= select_tag 'selected_fields[]',
                          options_for_select(selected_fields),
@@ -61,6 +62,7 @@
 
     <p>
       <%= label_tag "separator", l(:separator) %>
+      <span class="required">*</span>
       <%= text_field_tag "separator", @project.autocomplete_separator %>
     </p>
 

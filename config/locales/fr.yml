@@ -7,3 +7,6 @@ fr:
   show_subject_input: "Le champ 'Sujet' dans le formulaire de saisie doit être"
   enabled: activé
   only_activated_for_these_trackers: "Activé uniquement pour ces trackers"
+  autocomplete_subject_field_required : "Veuillez selectionner au moins un champ"
+  autocomplete_subject_separator_required : "Veuillez indiquer un séparateur"
+
