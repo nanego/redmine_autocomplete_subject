@@ -43,9 +43,17 @@ describe ProjectsController, :type => :controller do
       expect(AutocompletedField.last.position).to eq(2)
     end
   end
-
+  
+  it "update AutocompletedField table when delete a project" do
+    project = Project.last
+    AutocompletedField.create(project_id: project.id, field_object: "Issue", field_name: "issue_author_id", position: 0)
+    expect do
+      project.destroy
+    end.to change { AutocompletedField.count }.by(-1)
+  end
+  
   describe "create a project" do 
-    it "Check if default separator and fields are set on autocomplete_subject plugin is activated" do
+    it "checks if default separator and fields are set when autocomplete_subject plugin is activated" do
       post(
         :create, :params => {
           :project => {
