@@ -2,9 +2,9 @@ class AutocompletedFieldsController < ApplicationController
 
   def update_by_project
     project = Project.find(params[:autocomplete_pattern][:project_id])
-    if !params["separator"].present?
+    if params["separator"].blank?
       flash['error'] = l(:autocomplete_subject_separator_required)
-    elsif !params[:selected_fields].present?
+    elsif params[:selected_fields].blank?
       flash['error'] = l(:autocomplete_subject_field_required)
     else 
       AutocompletedField.where(project_id: project.id).delete_all
