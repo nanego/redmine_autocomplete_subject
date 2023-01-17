@@ -11,9 +11,9 @@ module PluginAutocompleteSubject
       autocompletedField = AutocompletedField.where(project_id: project.id)
       autocompletedField.each do |field|
         AutocompletedField.create(project_id: self.id,
-          field_object: field.field_object,
-          field_name: field.field_name,
-          position: field.position
+                                  field_object: field.field_object,
+                                  field_name: field.field_name,
+                                  position: field.position
         )
       end
       self.autocomplete_separator = project.autocomplete_separator
@@ -21,7 +21,7 @@ module PluginAutocompleteSubject
       self.autocomplete_subject_tracker_ids = project.autocomplete_subject_tracker_ids
     end
 
-    def copy(project, options={})
+    def copy(project, options = {})
       super
       project = project.is_a?(Project) ? project : Project.find(project)
 

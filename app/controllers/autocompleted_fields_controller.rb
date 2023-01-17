@@ -7,9 +7,9 @@ class AutocompletedFieldsController < ApplicationController
 
     params[:selected_fields].each_with_index do |field_name, index|
       AutocompletedField.create(project_id: project.id,
-                                 field_object: 'Issue',
-                                 field_name: field_name,
-                                 position: index
+                                field_object: 'Issue',
+                                field_name: field_name,
+                                position: index
       )
     end if params[:selected_fields].present?
 
