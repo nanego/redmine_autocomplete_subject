@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe ProjectsController, :type => :controller do
-  fixtures  :users, :projects
+  fixtures :users, :projects
 
   before do
     @request.session[:user_id] = 1
@@ -43,7 +43,7 @@ describe ProjectsController, :type => :controller do
       expect(AutocompletedField.last.position).to eq(2)
     end
   end
-  
+
   it "update AutocompletedField table when delete a project" do
     project = Project.last
     AutocompletedField.create(project_id: project.id, field_object: "Issue", field_name: "issue_author_id", position: 0)
@@ -51,18 +51,16 @@ describe ProjectsController, :type => :controller do
       project.destroy
     end.to change { AutocompletedField.count }.by(-1)
   end
-  
-  describe "create a project" do 
+
+  describe "create a project" do
     it "checks if default separator and fields are set when autocomplete_subject plugin is activated" do
-      post(
-        :create, :params => {
-          :project => {
-            :name => "Project using autocomplete_subject",
-            :identifier => "project_using_autocomplete_subject",
-            :enabled_module_names => ['autocomplete_subject']
-          }
+      post :create, :params => {
+        :project => {
+          :name => "Project using autocomplete_subject",
+          :identifier => "project_using_autocomplete_subject",
+          :enabled_module_names => ['autocomplete_subject']
         }
-      )
+      }
       project = Project.last
       expect(AutocompletedField.last.project_id).to eq(project.id)
       expect(AutocompletedField.last.field_name).to eq("issue_tracker_id")
