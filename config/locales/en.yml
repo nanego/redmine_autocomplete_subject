@@ -1,3 +1,13 @@
 # English strings go here for Rails i18n
 en:
   autocomplete_subject: "Autocomplete subject"
+  description_available_fields: "Available fields"
+  description_selected_fields: "Selected fields"
+  separator: "Separator"
+  show_subject_input: "The 'Subject' field in the input form must be"
+  enabled: activated
+  only_activated_for_these_trackers: "Only activated for these trackers"
+  autocomplete_subject_field_required : "You need to select at least one field"
+  autocomplete_subject_separator_required : "You need to select a separator"
+
+
