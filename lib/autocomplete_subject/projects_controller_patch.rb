@@ -1,10 +1,6 @@
 require_dependency 'projects_controller'
 
-class ProjectsController < ApplicationController
-
-  after_action :set_default_parameters_for_autocomplete_subject, :only => [:update, :create]
-
-  private
+module AutocompleteSubject::ProjectsControllerPatch
 
   def set_default_parameters_for_autocomplete_subject
     if @project.module_enabled?("autocomplete_subject")
@@ -15,5 +11,13 @@ class ProjectsController < ApplicationController
       @project.save
     end
   end
+
+end
+
+class ProjectsController < ApplicationController
+
+  include AutocompleteSubject::IssuesControllerPatch
+
+  after_action :set_default_parameters_for_autocomplete_subject, :only => [:update, :create]
 
 end    

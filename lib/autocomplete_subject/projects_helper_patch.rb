@@ -1,8 +1,8 @@
 require_dependency 'projects_helper'
 
-module PluginAutocompleteSubject
+module AutocompleteSubject
 
-  module ProjectsHelper
+  module ProjectsHelperPatch
 
     def project_settings_tabs
       tabs = super
@@ -17,5 +17,5 @@ module PluginAutocompleteSubject
 
 end
 
-ProjectsHelper.prepend PluginAutocompleteSubject::ProjectsHelper
+ProjectsHelper.prepend AutocompleteSubject::ProjectsHelperPatch
 ActionView::Base.send(:include, ProjectsHelper)

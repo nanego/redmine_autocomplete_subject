@@ -1,10 +1,6 @@
 require_dependency 'issues_controller'
 
-class IssuesController
-
-  append_before_action :valid_autocompleted_subject, :only => [:create]
-
-  private
+module AutocompleteSubject::IssuesControllerPatch
 
   def valid_autocompleted_subject
     if @issue.project.present? && @issue.project.module_enabled?("autocomplete_subject")
@@ -33,5 +29,13 @@ class IssuesController
     end
     autocompleted_subject.join(@issue.project.autocomplete_separator)
   end
+
+end
+
+class IssuesController
+
+  include AutocompleteSubject::IssuesControllerPatch
+
+  append_before_action :valid_autocompleted_subject, :only => [:create]
 
 end
