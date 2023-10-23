@@ -16,7 +16,7 @@ end
 
 class ProjectsController < ApplicationController
 
-  include AutocompleteSubject::IssuesControllerPatch
+  include AutocompleteSubject::ProjectsControllerPatch
 
   after_action :set_default_parameters_for_autocomplete_subject, :only => [:update, :create]
 
