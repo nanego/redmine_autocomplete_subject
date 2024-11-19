@@ -1,4 +1,4 @@
-class AutocompletedField < ActiveRecord::Base
+class AutocompletedField < ApplicationRecord
   include Redmine::SafeAttributes
 
   belongs_to :project
