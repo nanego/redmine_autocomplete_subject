@@ -9,4 +9,4 @@ fr:
   only_activated_for_these_trackers: "Activé uniquement pour ces trackers"
   autocomplete_subject_field_required : "Veuillez selectionner au moins un champ"
   autocomplete_subject_separator_required : "Veuillez indiquer un séparateur"
-  module_autocomplete_subject: "Saisie automatique du sujet"
+  project_module_autocomplete_subject: "Saisie automatique du sujet"
