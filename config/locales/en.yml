@@ -9,5 +9,6 @@ en:
   only_activated_for_these_trackers: "Only activated for these trackers"
   autocomplete_subject_field_required : "You need to select at least one field"
   autocomplete_subject_separator_required : "You need to select a separator"
+  module_autocomplete_subject: "Autocomplete subject"
 
 
