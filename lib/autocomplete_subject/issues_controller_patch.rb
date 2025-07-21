@@ -19,11 +19,12 @@ module AutocompleteSubject::IssuesControllerPatch
       if field_name_array.last == 'id'
         # issue property
         value = @issue.public_send(field_name_array[1..-2].join('_')).to_s
+      elsif field_name_array.last.to_i.to_s == field_name_array.last
+        # Integer --> custom_field id
+        value = @issue.custom_field_value(field_name_array.last.to_i).to_s
       else
-        if field_name_array.last.to_i.to_s == field_name_array.last
-          # Integer --> custom_field id
-          value = @issue.custom_field_value(field_name_array.last.to_i).to_s
-        end
+        # standard fields (ex: start_date, due_date, subject, etc.)
+        value = @issue.public_send(field_name_array[1..-1].join('_')).to_s
       end
       autocompleted_subject << value if value.present?
     end
